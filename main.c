@@ -2,17 +2,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
-
-#define MAP_ROWS 4
-#define MAP_COLS 4
-#define INITIAL_POINTS_NUMBER 2
-
-struct Point
-{
-    int value;
-    int row;
-    int col;
-};
+#include "map/map.h"
+#include "points/points.h"
 
 void initializeMap(int map[MAP_COLS][MAP_ROWS])
 {
@@ -40,79 +31,6 @@ void showMap(int map[MAP_COLS][MAP_ROWS])
     }
 
     printf("\n");
-}
-
-int generatePointValue()
-{
-    return ((rand() % 2) + 1) * 2;
-}
-
-void getAvailablePositions(int map[MAP_COLS][MAP_ROWS], struct Point availablePositions[], int *numberOfAvailablePositions)
-{
-    int index = 0;
-
-    for (int i = 0; i < MAP_ROWS; i++)
-    {
-        for (int j = 0; j < MAP_COLS; j++)
-        {
-            if (map[i][j] == 0)
-            {
-                availablePositions[index].row = i;
-                availablePositions[index].col = j;
-                index++;
-            }
-        }
-    }
-
-    *numberOfAvailablePositions = index;
-}
-
-struct Point generatePoint(int map[MAP_ROWS][MAP_COLS])
-{
-    int randomIndex, numberOfAvailablePositions;
-    struct Point point, availablePositions[MAP_ROWS * MAP_COLS];
-
-    getAvailablePositions(map, availablePositions, &numberOfAvailablePositions);
-
-    if (numberOfAvailablePositions == 0)
-    {
-        printf("\nThere is no any available points.\n");
-
-        struct Point emptyPoint = {.value = -1, .row = -1, .col = -1};
-        return emptyPoint;
-    }
-
-    randomIndex = rand() % numberOfAvailablePositions;
-    availablePositions[randomIndex].value = generatePointValue();
-    printf("\n row = %d col = %d value = %d\n", availablePositions[randomIndex].row, availablePositions[randomIndex].col, availablePositions[randomIndex].value);
-
-    return availablePositions[randomIndex];
-}
-
-void initializePoints(int map[MAP_COLS][MAP_ROWS])
-{
-    for (int i = 0; i < INITIAL_POINTS_NUMBER; i++)
-    {
-        struct Point p = generatePoint(map);
-        map[p.row][p.col] = p.value;
-    }
-}
-
-void setPoints(int map[MAP_COLS][MAP_ROWS], int moveNumber)
-{
-    if (moveNumber == 0)
-    {
-        initializePoints(map);
-       /*  struct Point p1 = {.row = 0, .col = 3, .value = 2};
-        struct Point p2 = {.row = 0, .col = 2, .value = 4};
-        map[p1.row][p1.col] = p1.value;
-        map[p2.row][p2.col] = p1.value; */
-        return;
-    }
-
-    struct Point p = generatePoint(map);
-
-    map[p.row][p.col] = p.value;
 }
 
 void moveToLeft(int map[MAP_COLS][MAP_ROWS])
@@ -161,7 +79,7 @@ bool userMoveIsValidated(char userMove)
     char availableKeys[] = {'a', 'w', 's', 'd'};
     bool moveIsCorrect = false;
 
-    for (int i = 0; i < sizeof(availableKeys) / sizeof(availableKeys[0]); i++)
+    for (unsigned int i = 0; i < sizeof(availableKeys) / sizeof(availableKeys[0]); i++)
     {
         if (userMove == availableKeys[i])
         {
@@ -186,8 +104,9 @@ int main()
 
     while (running)
     {
-        setPoints(map, moveNumber);
+        addPoints(map, moveNumber);
         showMap(map);
+        moveNumber ++;
 
         do
         {
