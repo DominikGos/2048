@@ -62,15 +62,8 @@ void initializePoints(int map[MAP_COLS][MAP_ROWS])
     }
 }
 
-void addPoints(int map[MAP_COLS][MAP_ROWS], int moveNumber)
+void addPoint(int map[MAP_COLS][MAP_ROWS])
 {
-    if (moveNumber == 0)
-    {
-        initializePoints(map);
-   
-        return;
-    }
-
     struct Point p = generatePoint(map);
 
     map[p.row][p.col] = p.value;

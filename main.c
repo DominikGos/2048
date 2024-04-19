@@ -5,34 +5,6 @@
 #include "map/map.h"
 #include "points/points.h"
 
-void initializeMap(int map[MAP_COLS][MAP_ROWS])
-{
-    for (int i = 0; i < MAP_ROWS; i++)
-    {
-        for (int j = 0; j < MAP_COLS; j++)
-        {
-            map[i][j] = 0;
-        }
-    }
-}
-
-void showMap(int map[MAP_COLS][MAP_ROWS])
-{
-    printf("\n");
-
-    for (int i = 0; i < MAP_ROWS; i++)
-    {
-        for (int j = 0; j < MAP_COLS; j++)
-        {
-            printf("\t%d", map[i][j]);
-        }
-
-        printf("\n");
-    }
-
-    printf("\n");
-}
-
 void moveToLeft(int map[MAP_COLS][MAP_ROWS])
 {
     for (int i = 0; i < MAP_ROWS; i++)
@@ -99,12 +71,12 @@ int main()
 
     srand(time(NULL));
     initializeMap(map);
+    initializePoints(map);
 
     printf("\nWitaj w grze 2048!\nMozesz sie poruszac za pomoca klawiszy AWSD. Wybierz odpowiedni przycisk i zatwierdz.\n");
 
     while (running)
     {
-        addPoints(map, moveNumber);
         showMap(map);
         moveNumber ++;
 
@@ -118,5 +90,7 @@ int main()
 
             move(map, userMove); 
         } while (userMoveIsValidatedCorrectly != 1 || userMoveIsCorrect != 1);
+
+        addPoint(map);
     }
 }
