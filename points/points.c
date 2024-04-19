@@ -53,7 +53,6 @@ struct Point generatePoint(int map[MAP_ROWS][MAP_COLS])
 
     randomIndex = rand() % numberOfAvailablePositions;
     availablePositions[randomIndex].value = generatePointValue();
-    printf("\n row = %d col = %d value = %d\n", availablePositions[randomIndex].row, availablePositions[randomIndex].col, availablePositions[randomIndex].value);
 
     return availablePositions[randomIndex];
 }
