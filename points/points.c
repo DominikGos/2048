@@ -8,7 +8,12 @@ const int INITIAL_POINTS_NUMBER = 2;
 
 int generatePointValue()
 {
-    return ((rand() % 2) + 1) * 2;
+    const int probabilityOfTheNumberFour = 20;
+
+    if (rand() % 100 < probabilityOfTheNumberFour)
+        return 4;
+    else
+        return 2;
 }
 
 void getAvailablePositions(int map[MAP_COLS][MAP_ROWS], struct Point availablePositions[], int *numberOfAvailablePositions)
