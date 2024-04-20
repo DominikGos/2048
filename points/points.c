@@ -59,11 +59,16 @@ struct Point generatePoint(int map[MAP_ROWS][MAP_COLS])
 
 void initializePoints(int map[MAP_COLS][MAP_ROWS])
 {
-     for (int i = 0; i < INITIAL_POINTS_NUMBER; i++)
-     {
-         struct Point p = generatePoint(map);
-         map[p.row][p.col] = p.value;
-     }
+    for (int i = 0; i < INITIAL_POINTS_NUMBER; i++)
+    {
+        struct Point p = generatePoint(map);
+        map[p.row][p.col] = p.value;
+    }
+
+    // struct Point p1 = {.row = 0, .col = 1, .value = 2};
+    // struct Point p2 = {.row = 0, .col = 3, .value = 2};
+    // map[p1.row][p1.col] = p1.value;
+    // map[p2.row][p2.col] = p2.value;
 }
 
 void addPoint(int map[MAP_COLS][MAP_ROWS])

@@ -1,22 +1,36 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "movement.h"
 #include "../map/map.h"
 #include "../points/points.h"
+
+void initializeMergedArray(bool **merged, int size)
+{
+    *merged = (bool *)calloc(size, sizeof(bool));
+}
+
+void freeMergedArray(bool *merged)
+{
+    free(merged);
+}
 
 void moveToTheLeft(int map[MAP_ROWS][MAP_COLS])
 {
     for (int i = 0; i < MAP_ROWS; i++)
     {
         int targetIndex = 0;
+        bool *merged;
+        initializeMergedArray(&merged, MAP_COLS);
         for (int j = 0; j < MAP_COLS; j++)
         {
             if (map[i][j] != 0)
             {
-                if (targetIndex > 0 && map[i][targetIndex - 1] == map[i][j])
+                if (targetIndex > 0 && map[i][targetIndex - 1] == map[i][j] && !merged[targetIndex - 1])
                 {
                     map[i][targetIndex - 1] *= 2;
                     map[i][j] = 0;
+                    merged[targetIndex - 1] = true;
                 }
                 else
                 {
@@ -29,6 +43,7 @@ void moveToTheLeft(int map[MAP_ROWS][MAP_COLS])
                 }
             }
         }
+        freeMergedArray(merged);
     }
 }
 
@@ -37,14 +52,17 @@ void moveToTheRight(int map[MAP_ROWS][MAP_COLS])
     for (int i = 0; i < MAP_ROWS; i++)
     {
         int targetIndex = MAP_COLS - 1;
+        bool *merged;
+        initializeMergedArray(&merged, MAP_COLS);
         for (int j = MAP_COLS - 1; j >= 0; j--)
         {
             if (map[i][j] != 0)
             {
-                if (targetIndex < MAP_COLS - 1 && map[i][targetIndex + 1] == map[i][j])
+                if (targetIndex < MAP_COLS - 1 && map[i][targetIndex + 1] == map[i][j] && !merged[targetIndex + 1])
                 {
                     map[i][targetIndex + 1] *= 2;
                     map[i][j] = 0;
+                    merged[targetIndex + 1] = true;
                 }
                 else
                 {
@@ -57,6 +75,7 @@ void moveToTheRight(int map[MAP_ROWS][MAP_COLS])
                 }
             }
         }
+        freeMergedArray(merged);
     }
 }
 
@@ -65,14 +84,17 @@ void moveToTheUp(int map[MAP_ROWS][MAP_COLS])
     for (int j = 0; j < MAP_COLS; j++)
     {
         int targetIndex = 0;
+        bool *merged;
+        initializeMergedArray(&merged, MAP_COLS);
         for (int i = 0; i < MAP_ROWS; i++)
         {
             if (map[i][j] != 0)
             {
-                if (targetIndex > 0 && map[targetIndex - 1][j] == map[i][j])
+                if (targetIndex > 0 && map[targetIndex - 1][j] == map[i][j] && !merged[targetIndex - 1])
                 {
                     map[targetIndex - 1][j] *= 2;
                     map[i][j] = 0;
+                    merged[targetIndex - 1] = true;
                 }
                 else
                 {
@@ -85,6 +107,7 @@ void moveToTheUp(int map[MAP_ROWS][MAP_COLS])
                 }
             }
         }
+        freeMergedArray(merged);
     }
 }
 
@@ -93,14 +116,17 @@ void moveToTheDown(int map[MAP_ROWS][MAP_COLS])
     for (int j = 0; j < MAP_COLS; j++)
     {
         int targetIndex = MAP_ROWS - 1;
+        bool *merged;
+        initializeMergedArray(&merged, MAP_COLS);
         for (int i = MAP_ROWS - 1; i >= 0; i--)
         {
             if (map[i][j] != 0)
             {
-                if (targetIndex < MAP_ROWS - 1 && map[targetIndex + 1][j] == map[i][j])
+                if (targetIndex < MAP_ROWS - 1 && map[targetIndex + 1][j] == map[i][j] && !merged[targetIndex + 1])
                 {
                     map[targetIndex + 1][j] *= 2;
                     map[i][j] = 0;
+                    merged[targetIndex + 1] = true;
                 }
                 else
                 {
@@ -113,6 +139,7 @@ void moveToTheDown(int map[MAP_ROWS][MAP_COLS])
                 }
             }
         }
+        freeMergedArray(merged);
     }
 }
 

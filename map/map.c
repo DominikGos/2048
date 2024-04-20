@@ -23,7 +23,13 @@ void showMap(int map[MAP_COLS][MAP_ROWS])
     {
         for (int j = 0; j < MAP_COLS; j++)
         {
-            printf("\t%d", map[i][j]);
+            printf("\t");
+            
+            if(map[i][j] != 0) {
+                printf("%d", map[i][j]);
+            } else {
+                printf("-");
+            }
         }
 
         printf("\n");
