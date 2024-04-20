@@ -10,6 +10,7 @@ int main()
 {
     int map[MAP_COLS][MAP_ROWS], moveNumber = 0;
     bool running = true, userMoveIsCorrect, userMoveIsValidatedCorrectly;
+    bool moveHasBeenMade;
     char userMove;
 
     srand(time(NULL));
@@ -31,9 +32,10 @@ int main()
 
             if(userMoveIsValidatedCorrectly != 1) continue;
 
-            move(map, userMove); 
+            move(map, userMove, &moveHasBeenMade); 
         } while (userMoveIsValidatedCorrectly != 1 || userMoveIsCorrect != 1);
 
-        addPoint(map);
+        if(moveHasBeenMade)
+            addPoint(map);
     }
 }

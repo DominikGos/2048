@@ -15,7 +15,7 @@ void freeMergedArray(bool *merged)
     free(merged);
 }
 
-void moveToTheLeft(int map[MAP_ROWS][MAP_COLS])
+void moveToTheLeft(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
 {
     for (int i = 0; i < MAP_ROWS; i++)
     {
@@ -31,6 +31,7 @@ void moveToTheLeft(int map[MAP_ROWS][MAP_COLS])
                     map[i][targetIndex - 1] *= 2;
                     map[i][j] = 0;
                     merged[targetIndex - 1] = true;
+                    *moveHasBeenMade = true;
                 }
                 else
                 {
@@ -38,6 +39,7 @@ void moveToTheLeft(int map[MAP_ROWS][MAP_COLS])
                     {
                         map[i][targetIndex] = map[i][j];
                         map[i][j] = 0;
+                        *moveHasBeenMade = true;
                     }
                     targetIndex++;
                 }
@@ -47,7 +49,7 @@ void moveToTheLeft(int map[MAP_ROWS][MAP_COLS])
     }
 }
 
-void moveToTheRight(int map[MAP_ROWS][MAP_COLS])
+void moveToTheRight(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
 {
     for (int i = 0; i < MAP_ROWS; i++)
     {
@@ -63,6 +65,7 @@ void moveToTheRight(int map[MAP_ROWS][MAP_COLS])
                     map[i][targetIndex + 1] *= 2;
                     map[i][j] = 0;
                     merged[targetIndex + 1] = true;
+                    *moveHasBeenMade = true;
                 }
                 else
                 {
@@ -70,6 +73,7 @@ void moveToTheRight(int map[MAP_ROWS][MAP_COLS])
                     {
                         map[i][targetIndex] = map[i][j];
                         map[i][j] = 0;
+                        *moveHasBeenMade = true;
                     }
                     targetIndex--;
                 }
@@ -79,7 +83,7 @@ void moveToTheRight(int map[MAP_ROWS][MAP_COLS])
     }
 }
 
-void moveToTheUp(int map[MAP_ROWS][MAP_COLS])
+void moveToTheUp(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
 {
     for (int j = 0; j < MAP_COLS; j++)
     {
@@ -95,6 +99,7 @@ void moveToTheUp(int map[MAP_ROWS][MAP_COLS])
                     map[targetIndex - 1][j] *= 2;
                     map[i][j] = 0;
                     merged[targetIndex - 1] = true;
+                    *moveHasBeenMade = true;
                 }
                 else
                 {
@@ -102,6 +107,7 @@ void moveToTheUp(int map[MAP_ROWS][MAP_COLS])
                     {
                         map[targetIndex][j] = map[i][j];
                         map[i][j] = 0;
+                        *moveHasBeenMade = true;
                     }
                     targetIndex++;
                 }
@@ -111,7 +117,7 @@ void moveToTheUp(int map[MAP_ROWS][MAP_COLS])
     }
 }
 
-void moveToTheDown(int map[MAP_ROWS][MAP_COLS])
+void moveToTheDown(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
 {
     for (int j = 0; j < MAP_COLS; j++)
     {
@@ -127,6 +133,7 @@ void moveToTheDown(int map[MAP_ROWS][MAP_COLS])
                     map[targetIndex + 1][j] *= 2;
                     map[i][j] = 0;
                     merged[targetIndex + 1] = true;
+                    *moveHasBeenMade = true;
                 }
                 else
                 {
@@ -134,6 +141,7 @@ void moveToTheDown(int map[MAP_ROWS][MAP_COLS])
                     {
                         map[targetIndex][j] = map[i][j];
                         map[i][j] = 0;
+                        *moveHasBeenMade = true;
                     }
                     targetIndex--;
                 }
@@ -143,24 +151,26 @@ void moveToTheDown(int map[MAP_ROWS][MAP_COLS])
     }
 }
 
-void move(int map[MAP_ROWS][MAP_COLS], char direction)
+void move(int map[MAP_ROWS][MAP_COLS], char direction, bool *moveHasBeenMade)
 {
+    *moveHasBeenMade = false;
+
     switch (direction)
     {
     case 'a':
-        moveToTheLeft(map);
+        moveToTheLeft(map, moveHasBeenMade);
         break;
 
     case 'd':
-        moveToTheRight(map);
+        moveToTheRight(map, moveHasBeenMade);
         break;
 
     case 'w':
-        moveToTheUp(map);
+        moveToTheUp(map, moveHasBeenMade);
         break;
 
     case 's':
-        moveToTheDown(map);
+        moveToTheDown(map, moveHasBeenMade);
         break;
 
     default:
