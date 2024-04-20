@@ -8,7 +8,7 @@ const int INITIAL_POINTS_NUMBER = 2;
 
 int generatePointValue()
 {
-    const int probabilityOfTheNumberFour = 20;
+    const int probabilityOfTheNumberFour = 10;
 
     if (rand() % 100 < probabilityOfTheNumberFour)
         return 4;
@@ -59,11 +59,11 @@ struct Point generatePoint(int map[MAP_ROWS][MAP_COLS])
 
 void initializePoints(int map[MAP_COLS][MAP_ROWS])
 {
-    for (int i = 0; i < INITIAL_POINTS_NUMBER; i++)
-    {
-        struct Point p = generatePoint(map);
-        map[p.row][p.col] = p.value;
-    }
+     for (int i = 0; i < INITIAL_POINTS_NUMBER; i++)
+     {
+         struct Point p = generatePoint(map);
+         map[p.row][p.col] = p.value;
+     }
 }
 
 void addPoint(int map[MAP_COLS][MAP_ROWS])
