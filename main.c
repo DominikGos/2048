@@ -9,7 +9,7 @@
 
 int main()
 {
-    int map[MAP_COLS][MAP_ROWS], moveNumber = 0;
+    int map[MAP_COLS][MAP_ROWS], pointsScored = 0;
     bool running = true, userMoveIsCorrect, userMoveIsValidatedCorrectly, moveHasBeenMade;
     char userMove;
 
@@ -17,12 +17,10 @@ int main()
     initializeMap(map);
     initializePoints(map);
     printf("\nWitaj w grze 2048!\nMozesz sie poruszac za pomoca klawiszy AWSD. Wybierz odpowiedni przycisk i zatwierdz.\n");
-    showMap(map);
+    showMap(map, &pointsScored);
 
     while (running)
     {
-        moveNumber++;
-
         if (doesUserLostTheGame(map))
         {
             exit(0);
@@ -37,18 +35,18 @@ int main()
             if (userMoveIsValidatedCorrectly != 1)
                 continue;
 
-            move(map, userMove, &moveHasBeenMade);
+            move(map, userMove, &moveHasBeenMade, &pointsScored);
         } while (!userMoveIsValidatedCorrectly || !userMoveIsCorrect);
 
         if (doesUserWonTheGame(map))
         {
-            showMap(map);
+            showMap(map, &pointsScored);
             exit(0);
         }
 
         if (moveHasBeenMade)
             addPoint(map);
 
-        showMap(map);
+        showMap(map, &pointsScored);
     }
 }

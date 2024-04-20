@@ -5,5 +5,5 @@
 #include "../map/map.h"
 
 extern bool userMoveIsValidated(char userMove);
-extern void move(int map[MAP_COLS][MAP_ROWS], char key, bool* moveHasBeenMade);
+extern void move(int map[MAP_COLS][MAP_ROWS], char key, bool* moveHasBeenMade, int* pointsScored);
 #endif 

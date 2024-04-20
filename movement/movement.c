@@ -5,6 +5,11 @@
 #include "../map/map.h"
 #include "../points/points.h"
 
+void addScoredPoints(int *pointsScored, int value)
+{
+    *pointsScored += value;
+}
+
 void initializeMergedArray(bool **merged, int size)
 {
     *merged = (bool *)calloc(size, sizeof(bool));
@@ -15,7 +20,7 @@ void freeMergedArray(bool *merged)
     free(merged);
 }
 
-void moveToTheLeft(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
+void moveToTheLeft(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade, int *pointsScored)
 {
     for (int i = 0; i < MAP_ROWS; i++)
     {
@@ -32,6 +37,7 @@ void moveToTheLeft(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
                     map[i][j] = 0;
                     merged[targetIndex - 1] = true;
                     *moveHasBeenMade = true;
+                    addScoredPoints(pointsScored, map[i][targetIndex - 1]);
                 }
                 else
                 {
@@ -49,7 +55,7 @@ void moveToTheLeft(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
     }
 }
 
-void moveToTheRight(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
+void moveToTheRight(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade, int *pointsScored)
 {
     for (int i = 0; i < MAP_ROWS; i++)
     {
@@ -66,6 +72,7 @@ void moveToTheRight(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
                     map[i][j] = 0;
                     merged[targetIndex + 1] = true;
                     *moveHasBeenMade = true;
+                    addScoredPoints(pointsScored, map[i][targetIndex + 1]);
                 }
                 else
                 {
@@ -83,7 +90,7 @@ void moveToTheRight(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
     }
 }
 
-void moveToTheUp(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
+void moveToTheUp(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade, int *pointsScored)
 {
     for (int j = 0; j < MAP_COLS; j++)
     {
@@ -100,6 +107,7 @@ void moveToTheUp(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
                     map[i][j] = 0;
                     merged[targetIndex - 1] = true;
                     *moveHasBeenMade = true;
+                    addScoredPoints(pointsScored, map[targetIndex - 1][j]);
                 }
                 else
                 {
@@ -117,7 +125,7 @@ void moveToTheUp(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
     }
 }
 
-void moveToTheDown(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
+void moveToTheDown(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade, int *pointsScored)
 {
     for (int j = 0; j < MAP_COLS; j++)
     {
@@ -134,6 +142,7 @@ void moveToTheDown(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
                     map[i][j] = 0;
                     merged[targetIndex + 1] = true;
                     *moveHasBeenMade = true;
+                    addScoredPoints(pointsScored, map[targetIndex + 1][j]);
                 }
                 else
                 {
@@ -151,30 +160,30 @@ void moveToTheDown(int map[MAP_ROWS][MAP_COLS], bool *moveHasBeenMade)
     }
 }
 
-void move(int map[MAP_ROWS][MAP_COLS], char direction, bool *moveHasBeenMade)
+void move(int map[MAP_ROWS][MAP_COLS], char direction, bool *moveHasBeenMade, int *pointsScored)
 {
     *moveHasBeenMade = false;
 
     switch (direction)
     {
     case 'a':
-        moveToTheLeft(map, moveHasBeenMade);
+        moveToTheLeft(map, moveHasBeenMade, pointsScored);
         break;
 
     case 'd':
-        moveToTheRight(map, moveHasBeenMade);
+        moveToTheRight(map, moveHasBeenMade, pointsScored);
         break;
 
     case 'w':
-        moveToTheUp(map, moveHasBeenMade);
+        moveToTheUp(map, moveHasBeenMade, pointsScored);
         break;
 
     case 's':
-        moveToTheDown(map, moveHasBeenMade);
+        moveToTheDown(map, moveHasBeenMade, pointsScored);
         break;
 
     default:
-        printf("Invalid direction\n");
+        printf("Niedozwolony ruch\n");
     }
 }
 

@@ -15,9 +15,10 @@ void initializeMap(int map[MAP_COLS][MAP_ROWS])
     }
 }
 
-void showMap(int map[MAP_COLS][MAP_ROWS])
+void showMap(int map[MAP_COLS][MAP_ROWS], int* pointsScored)
 {
     printf("\n");
+    printf("Twoj wynik: %d\n\n", *pointsScored);
 
     for (int i = 0; i < MAP_ROWS; i++)
     {
